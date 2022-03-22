@@ -1,0 +1,6 @@
+{
+    "name": "Cheddar",
+    "description": "cheese",
+    "owner": 1,
+    "members": [1, 2]
+}
