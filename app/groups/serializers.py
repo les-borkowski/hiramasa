@@ -1,3 +1,4 @@
+from pydoc import describe
 from rest_framework import serializers
 
 from .models import Group, CustomUser, Event
@@ -11,16 +12,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
     
-    # members = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all())
-    # members = UserSerializer(many=True)
-    # owner = UserSerializer()
+    members = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all())
+    owner = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
     
     class Meta:
         model = Group
-        fields = '__all__'
+        fields = ("name", "description", "owner", "created_at", "members")
         read_only_fields = ('id', 'created_at')
 
 class EventSerializer(serializers.ModelSerializer):
+    attendees = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all())
+    owner = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    group = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all())
     
     class Meta:
         model = Event

@@ -97,10 +97,10 @@ def test_add_event(client):
             "name": "Dinner",
             "description": "Food",
             "owner": 1,
+            "group": 1,
             "location": "Pub",
-            "time": timezone.now(),
-            "attendees": [1],
-            "group": 1
+            "time": "2022-04-17T18:57:00Z",
+            "attendees": 1,    
         },
         content_type="application/json"
     )

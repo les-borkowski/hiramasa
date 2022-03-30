@@ -1,6 +1,6 @@
 from rest_framework import generics
-from groups.models import CustomUser, Group
-from groups.serializers import UserSerializer, GroupSerializer
+from groups.models import CustomUser, Group, Event
+from groups.serializers import UserSerializer, GroupSerializer, EventSerializer
 
 # users view
 class UserList(generics.ListCreateAPIView):
@@ -26,4 +26,16 @@ class GroupDetail(generics.RetrieveAPIView):
     # permission_classes = [permissions.IsAdminUser]
 
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer    
+    serializer_class = GroupSerializer
+
+class EventList(generics.ListCreateAPIView):
+    # permission_classes = [permissions.isAuthenticated]
+    
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer    
+
+class EventDetail(generics.RetrieveAPIView):
+    # permission_classes = [permissions.isAuthenticated]
+    
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer    

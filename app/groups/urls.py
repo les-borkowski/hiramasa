@@ -7,6 +7,8 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserDetail.as_view(), name='users-detail'),
     path('groups/', views.GroupList.as_view(), name='group-list'),
     path('groups/<int:pk>/', views.GroupDetail.as_view(), name='group-detail'),
+    path('events/', views.EventList.as_view(), name='event-list'),
+    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-detail')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

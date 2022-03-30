@@ -1,6 +1,6 @@
 import pytest
 from django.utils import timezone
-from groups.models import Group, CustomUser, Event
+from groups.models import Group, CustomUser, Event, Post
 
 
 @pytest.mark.django_db
@@ -58,3 +58,32 @@ def test_event_model():
     assert event.attendees.count() == 1
     assert event.created_at
     assert str(event) == event.name
+ 
+@pytest.mark.django_db    
+def test_post_model():
+    # data setup
+    user1 = CustomUser(username="Rudy", email="rudy@kittens.com")
+    user1.save()
+    group1 = Group(id=999, name="Kittens", description="", owner=user1)
+    group1.save()
+    group1.members.add(user1)
+    group1.save()
+    event1 = Event(
+        name="Dinner", 
+        description="Food and Fun", 
+        owner=user1, 
+        location="Garden",
+        time=timezone.now(),
+        group=group1
+        )
+    event1.save()
+    event1.attendees.add(user1)
+    event1.save()
+    
+    post1 = Post(
+        title="Test", 
+        content="Some text", 
+        created_by=user1,
+        event=event1
+        )
+    post1.save()

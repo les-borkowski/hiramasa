@@ -40,8 +40,8 @@
 - [x] group detail
 - [x] user list
 - [x] user detail
-- [] event list 
-- [] event detail
+- [x] event list 
+- [x] event detail
 - [] event_post list
 - [] event_post detail
 
@@ -51,6 +51,7 @@
 - [x] models
 - [x] serializers - event
 - [] fix serializers tests again
+- [] fix add_group and add_event tests
 - [x] fix group - event relations
 - [x] update group tests
 - [] move tests data to fixtures
