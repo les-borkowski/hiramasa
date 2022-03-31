@@ -8,7 +8,9 @@ urlpatterns = [
     path('groups/', views.GroupList.as_view(), name='group-list'),
     path('groups/<int:pk>/', views.GroupDetail.as_view(), name='group-detail'),
     path('events/', views.EventList.as_view(), name='event-list'),
-    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-detail')
+    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-detail'),
+    path('posts/', views.PostList.as_view(), name='post-list'),
+    path('posts/<int:pk>/', views.PostDetail.as_view(), name='post-detail')
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

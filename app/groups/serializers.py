@@ -1,7 +1,6 @@
-from pydoc import describe
 from rest_framework import serializers
 
-from .models import Group, CustomUser, Event
+from .models import Group, CustomUser, Event, Post
 
 class UserSerializer(serializers.ModelSerializer):
     
@@ -28,4 +27,11 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ("name", "description", "owner", "group", "location", "time", "attendees", "created_at")
+        read_only_fields = ('id', 'created_at')
+        
+class PostSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Post
+        fields = ("title", "content", "created_by", "created_at", "event")
         read_only_fields = ('id', 'created_at')    

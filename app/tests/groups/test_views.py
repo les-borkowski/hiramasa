@@ -2,9 +2,9 @@ import json
 import pytest
 from django.utils import timezone
 
-from groups.models import Group, CustomUser, Event
+from groups.models import Group, CustomUser, Event, Post
 
-# I need to refactor these tests
+# I need to refactor these tests, remove repeated code
 @pytest.mark.django_db
 def test_add_group(client):
     user1 = CustomUser.objects.create(username="Rudy", email="rudy@kittens.com")
@@ -80,12 +80,14 @@ def test_get_single_group_incorrect_id(client):
     resp = client.get(f"/groups/foo/")
     assert resp.status_code == 404
 
+# GROUP views tests
+
 @pytest.mark.django_db    
 def test_add_event(client):
     # test setup
     user1 = CustomUser.objects.create(username="Rudy", email="rudy@kittens.com")
-    group = Group.objects.create(name="Pets", description="my animals", owner=user1)
-    group.members.add(user1)
+    group1 = Group.objects.create(name="Pets", description="my animals", owner=user1)
+    group1.members.add(user1)
     
     events = Event.objects.all()
     assert len(events) == 0
@@ -99,8 +101,8 @@ def test_add_event(client):
             "owner": 1,
             "group": 1,
             "location": "Pub",
-            "time": "2022-04-17T18:57:00Z",
-            "attendees": 1,    
+            "time": timezone.now(),
+            "attendees": [1],    
         },
         content_type="application/json"
     )
@@ -184,3 +186,104 @@ def test_get_single_event(client):
 def test_get_single_group_incorrect_id(client):
     resp = client.get(f"/events/foo/")
     assert resp.status_code == 404
+ 
+# POST views tests
+    
+@pytest.mark.django_db    
+def test_add_post(client):
+    # test setup
+    user1 = CustomUser.objects.create(username="Rudy", email="rudy@kittens.com")
+    group1 = Group.objects.create(name="Pets", description="my animals", owner=user1)
+    group1.members.add(user1)
+    event1 = Event.objects.create(
+        name="Dinner", 
+        description="test test test", 
+        owner=user1, 
+        group=group1, 
+        location="Here",
+        time=timezone.now()
+        )
+    event1.attendees.add(user1)
+    
+    posts = Post.objects.all()
+    assert len(posts) == 0
+    
+    resp = client.post(
+        "/posts/",
+        {
+            "title": "test",
+            "content": "test test test",
+            "created_by": 1,
+            "event": 1,    
+        },
+        content_type="application/json"
+    )
+    assert resp.status_code == 201
+    assert resp.data["title"] == "test"
+
+    posts = Post.objects.all()
+    assert len(posts) == 1
+    
+@pytest.mark.django_db    
+def test_add_post_invalid_json_keys(client):
+    # test setup
+    user1 = CustomUser.objects.create(username="Rudy", email="rudy@kittens.com")
+    group1 = Group.objects.create(name="Pets", description="my animals", owner=user1)
+    group1.members.add(user1)
+    event1 = Event.objects.create(
+        name="Dinner", 
+        description="test test test", 
+        owner=user1, 
+        group=group1, 
+        location="Here",
+        time=timezone.now()
+        )
+    event1.attendees.add(user1)
+    
+    posts = Post.objects.all()
+    assert len(posts) == 0
+    
+    resp = client.post(
+        "/posts/",
+        {
+            "name": "test",
+            "content": "test test test",
+            "created_by": 1,
+            "event": 1,    
+        },
+        content_type="application/json"
+    )
+    assert resp.status_code == 400
+
+    posts = Post.objects.all()
+    assert len(posts) == 0
+
+@pytest.mark.django_db    
+def test_add_post_invalid_json(client):
+    # test setup
+    user1 = CustomUser.objects.create(username="Rudy", email="rudy@kittens.com")
+    group1 = Group.objects.create(name="Pets", description="my animals", owner=user1)
+    group1.members.add(user1)
+    event1 = Event.objects.create(
+        name="Dinner", 
+        description="test test test", 
+        owner=user1, 
+        group=group1, 
+        location="Here",
+        time=timezone.now()
+        )
+    event1.attendees.add(user1)
+    
+    posts = Post.objects.all()
+    assert len(posts) == 0
+    
+    resp = client.post(
+        "/posts/",
+        {   
+        },
+        content_type="application/json"
+    )
+    assert resp.status_code == 400
+
+    posts = Post.objects.all()
+    assert len(posts) == 0

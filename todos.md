@@ -24,7 +24,7 @@
 - [x] fix serializers tests
 - [x] fix views test
 - [x] [x] [x] event
-- [][][] post
+- [x][x][x] post
 - Join tables
 - [x] members
 - [x] event attendees
@@ -42,20 +42,20 @@
 - [x] user detail
 - [x] event list 
 - [x] event detail
-- [] event_post list
-- [] event_post detail
+- [X] event_post list
+- [X] event_post detail
 
-### jobs for today
+### to do
 
 - [x] add group events
 - [x] models
 - [x] serializers - event
-- [] fix serializers tests again
-- [] fix add_group and add_event tests
+- [] fix serializers and relations again
+- [] fix add_group and add_event, add_posts tests
 - [x] fix group - event relations
 - [x] update group tests
-- [] move tests data to fixtures
+- [] refactor tests (fixtures, remove repeating code)
 - [] endpoints - group/pk/event
 - [] add auth
 - [x] git repo
-- [] add readme file
+- [] add readme file (tonight)
